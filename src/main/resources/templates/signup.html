@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{default}">
+<head>
+    <title>Registro</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <form class="form-signin" th:action="@{/signup}" method="post">
+        <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72"
+             height="72"/>
+        <h1 class="h3 mb-3 font-weight-normal">Por favor registrate aquí</h1>
+        <div th:if="${param.error}">
+            Invalid email and password.
+        </div>
+        <div th:if="${param.logout}">
+            You have been logged out.
+        </div>
+        <label for="inputEmail" class="sr-only">Username</label>
+        <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required=""/>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Contraseña"
+               required=""/>
+        <label for="inputFullname" class="sr-only">Full Name</label>
+        <input type="text" name="fullname" id="inputFullname" class="form-control" placeholder="Nombre" required=""/>
+        <label for="inputRole" class="sr-only">Rol</label>
+        <select id="inputRole" name="creationRole" class="form-control" placeholder="Rol" required="">
+            <option value="USER">Colaborador</option>
+            <option value="ADMIN">Supervisor</option>
+        </select>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Registro</button>
+
+    </form>
+    <form class="form-signin" th:action="@{/login}" method="get">
+        <button class="btn btn-md btn-success btn-block" type="Submit">Iniciar sesión</button>
+    </form>
+</div>
+</body>
+</html>

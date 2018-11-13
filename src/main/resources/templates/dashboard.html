@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{default}">
+<head>
+    <title>Dashboard Supervisor</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1 th:inline="text">Hola! [[${#httpServletRequest.remoteUser}]]!</h1>
+    <h2>Este es tu dashboard de Administrador!</h2>
+</div>
+</body>
+</html>
