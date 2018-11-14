@@ -12,8 +12,7 @@ import com.ecoservices.app.model.Role;
 import com.ecoservices.app.security.repository.RoleRepository;
 
 //@ComponentScan(basePackages = {"com.ecoservices"})
-@SpringBootApplication(scanBasePackages = { "com.ecoservices" } , exclude = { MongoAutoConfiguration.class ,
-        MongoDataAutoConfiguration.class })
+@SpringBootApplication(scanBasePackages = { "com.ecoservices" } )
 @EnableMongoRepositories("com.ecoservices")
 
 public class Application {
