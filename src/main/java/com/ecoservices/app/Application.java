@@ -3,6 +3,8 @@ package com.ecoservices.app;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
+import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
@@ -10,8 +12,10 @@ import com.ecoservices.app.model.Role;
 import com.ecoservices.app.security.repository.RoleRepository;
 
 //@ComponentScan(basePackages = {"com.ecoservices"})
-@SpringBootApplication(scanBasePackages = { "com.ecoservices" })
+@SpringBootApplication(scanBasePackages = { "com.ecoservices" } , exclude = { MongoAutoConfiguration.class ,
+        MongoDataAutoConfiguration.class })
 @EnableMongoRepositories("com.ecoservices")
+
 public class Application {
 
     public static void main(String[] args) {
