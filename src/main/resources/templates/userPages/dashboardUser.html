@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{default}">
+<head>
+    <title>Dashboard Usuario</title>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <p>Click <a th:href="@{/noveltyList}">aquí</a> para continuar.</p>
+
+    <form th:action="@{/createNewNovelty}" method="post">
+        <div class="form-group">
+            <label for="inputType">Tipo de novedad</label>
+            <select id="inputType" name="type" class="form-control" required="">
+                <option value="vacaciones">Vacaciones</option>
+                <option value="embarazo">Embarazo</option>
+                <option value="incapacidad">Incapacidad</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="comment">Observación</label>
+            <input type="text" id="comment" name="comment" class="form-control">
+        </div>
+        <div class="form-group">
+            <div class="form-group">
+                <label >Fecha de inicio</label>
+                <input type="date" name="startDate" max="3000-12-31"
+                       min="1000-01-01">
+            </div>
+            <div class="form-group">
+                <label >Fecha de finalización</label>
+                <input type="date" name="endDate" min="1000-01-01"
+                       max="3000-12-31">
+            </div>
+        </div>
+        <div>
+            <label for="duration">Días de duración</label>
+            <input type="number" id="duration" name="daysAmount" class="form-control">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Registrar novedad</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

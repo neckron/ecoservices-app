@@ -11,9 +11,9 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import com.ecoservices.app.model.Role;
 import com.ecoservices.app.security.repository.RoleRepository;
 
-//@ComponentScan(basePackages = {"com.ecoservices"})
-@SpringBootApplication(scanBasePackages = { "com.ecoservices" } )
-@EnableMongoRepositories("com.ecoservices")
+
+@SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
+@EnableMongoRepositories("com.ecoservices.app")
 
 public class Application {
 

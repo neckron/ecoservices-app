@@ -22,11 +22,11 @@ public class CustomizeAuthenticationSuccessHandler implements AuthenticationSucc
 
         for (GrantedAuthority auth : authentication.getAuthorities()) {
             if ("ADMIN".equals(auth.getAuthority())) {
-                response.sendRedirect("/dashboard");
+                response.sendRedirect("/admin/board");
             }
 
             if ("USER".equals((auth.getAuthority()))) {
-                response.sendRedirect("/dashboardUser");
+                response.sendRedirect("/user/board");
             }
         }
     }

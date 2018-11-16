@@ -8,8 +8,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.ecoservices.app.security.service.CustomUserDetailsService;
@@ -18,14 +20,18 @@ import com.ecoservices.app.security.service.CustomUserDetailsService;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    CustomizeAuthenticationSuccessHandler customizeAuthenticationSuccessHandler;
+
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Bean
     public UserDetailsService mongoUserDetails() {
         return new CustomUserDetailsService();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
+        return new CustomizeAuthenticationSuccessHandler();
     }
 
     @Override
@@ -37,13 +43,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/login").permitAll().antMatchers("/signup")
-                .permitAll().antMatchers("/dashboard/**").hasAuthority("ADMIN").antMatchers("/dashboardUser/**")
-                .hasAuthority("USER").anyRequest().authenticated().and().csrf().disable().formLogin()
-                .successHandler(customizeAuthenticationSuccessHandler).loginPage("/login")
+        http
+                .authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/signup").permitAll()
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/user/**").hasAuthority("USER")
+                .anyRequest().authenticated().and().csrf().disable().formLogin()
+                .successHandler(myAuthenticationSuccessHandler()).loginPage("/login")
                 .failureUrl("/login?error=true").usernameParameter("email").passwordParameter("password").and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").and()
                 .exceptionHandling();
+
+        /*String[] adminAccesibleUris = new String[]{ "/admin/**"};
+        String[] userAccesibleUris = new String[]{ "/user/**"};
+        String[] freeAccessUris = new String[]{ "/" , "/home" , "/login", "/error"};
+
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                    .anonymous()
+                .and()
+                    .authorizeRequests()
+                        .antMatchers(freeAccessUris).permitAll()
+                        .antMatchers("/admin/**").hasAuthority("ADMIN")
+                        .antMatchers("/user/**").hasAuthority("USER")
+                        .anyRequest().authenticated().and().csrf().disable().formLogin()
+                        .successHandler(myAuthenticationSuccessHandler()).loginPage("/login")
+                        .failureUrl("/login?error=true").usernameParameter("email").passwordParameter("password").and().logout()
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").and()
+                        .exceptionHandling();*/
+
     }
 
     @Override
