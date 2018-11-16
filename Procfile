@@ -1,1 +1,1 @@
-web : jar java $JAVA_OPTS -jar -Dspring.profiles.active=prod target/app-0.0.1-SNAPSHOT.jar
+web : java $JAVA_OPTS -jar target/app-0.0.1-SNAPSHOT.jar -Dspring.profiles.active=prod
