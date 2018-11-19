@@ -41,7 +41,7 @@ public class NoveltyController {
     logger.debug(NOVEDAD_REGISTRADA);
     modelAndView.addObject("successMessage", NOVEDAD_REGISTRADA);
     modelAndView.addObject("currentUser", userService.getUserByAuthenticationContext());
-    modelAndView.setViewName("/userPages/dashboardUser");
+    modelAndView.setViewName("userPages/dashboardUser");
     return modelAndView;
   }
 
@@ -52,7 +52,7 @@ public class NoveltyController {
     List<Novelty> listNovelties = noveltyManagerService.retrieveNoveltyListByUser(userService.getUserByAuthenticationContext());
     modelAndView.addObject("currentUser", userService.getUserByAuthenticationContext());
     modelAndView.addObject("listNovelties",listNovelties);
-    modelAndView.setViewName("/userPages/noveltyList");
+    modelAndView.setViewName("userPages/noveltyList");
     return modelAndView;
   }
 

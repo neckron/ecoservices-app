@@ -23,7 +23,7 @@ public class DashboardController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("currentUser", userService.getUserByAuthenticationContext());
         logger.debug("rdirecting user "+userService.getUserByAuthenticationContext().getFullname());
-        modelAndView.setViewName("/adminPages/dashboard");
+        modelAndView.setViewName("adminPages/dashboard");
         return modelAndView;
     }
 
@@ -31,7 +31,7 @@ public class DashboardController {
     public ModelAndView userDashboard() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("currentUser", userService.getUserByAuthenticationContext());
-        modelAndView.setViewName("/userPages/dashboardUser");
+        modelAndView.setViewName("userPages/dashboardUser");
         return modelAndView;
     }
 
