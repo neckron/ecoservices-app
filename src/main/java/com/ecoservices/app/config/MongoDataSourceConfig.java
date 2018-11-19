@@ -43,13 +43,9 @@ public class MongoDataSourceConfig {
     }
 
     @Bean
-    public MongoTemplate mongoTemplate() throws Exception {
-
-        return new MongoTemplate(mongoDbFactory());
-    }
+    public MongoTemplate mongoTemplate() throws Exception { return new MongoTemplate(mongoDbFactory()); }
 
     protected String getDatabaseName() {
         return database;
     }
-
 }

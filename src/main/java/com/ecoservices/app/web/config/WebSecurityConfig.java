@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -47,38 +46,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
-                .antMatchers("/signup").permitAll()
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/admin/**", "/signup").hasAuthority("ADMIN")
                 .antMatchers("/user/**").hasAuthority("USER")
                 .anyRequest().authenticated().and().csrf().disable().formLogin()
                 .successHandler(myAuthenticationSuccessHandler()).loginPage("/login")
                 .failureUrl("/login?error=true").usernameParameter("email").passwordParameter("password").and().logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").and()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login").and()
                 .exceptionHandling();
-
-        /*String[] adminAccesibleUris = new String[]{ "/admin/**"};
-        String[] userAccesibleUris = new String[]{ "/user/**"};
-        String[] freeAccessUris = new String[]{ "/" , "/home" , "/login", "/error"};
-
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                    .anonymous()
-                .and()
-                    .authorizeRequests()
-                        .antMatchers(freeAccessUris).permitAll()
-                        .antMatchers("/admin/**").hasAuthority("ADMIN")
-                        .antMatchers("/user/**").hasAuthority("USER")
-                        .anyRequest().authenticated().and().csrf().disable().formLogin()
-                        .successHandler(myAuthenticationSuccessHandler()).loginPage("/login")
-                        .failureUrl("/login?error=true").usernameParameter("email").passwordParameter("password").and().logout()
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").and()
-                        .exceptionHandling();*/
-
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+        web.ignoring().antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/static/images/**");
     }
 }
 

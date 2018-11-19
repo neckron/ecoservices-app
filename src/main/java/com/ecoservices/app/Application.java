@@ -17,6 +17,9 @@ import com.ecoservices.app.security.repository.RoleRepository;
 
 public class Application {
 
+    private static final String ADMIN = "ADMIN";
+    private static final String USER = "USER";
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -26,17 +29,17 @@ public class Application {
 
         return args -> {
 
-            Role adminRole = roleRepository.findByRole("ADMIN");
+            Role adminRole = roleRepository.findByRole(ADMIN);
             if (adminRole == null) {
                 Role newAdminRole = new Role();
-                newAdminRole.setRole("ADMIN");
+                newAdminRole.setRole(ADMIN);
                 roleRepository.save(newAdminRole);
             }
 
-            Role userRole = roleRepository.findByRole("USER");
+            Role userRole = roleRepository.findByRole(USER);
             if (userRole == null) {
                 Role newUserRole = new Role();
-                newUserRole.setRole("USER");
+                newUserRole.setRole(USER);
                 roleRepository.save(newUserRole);
             }
         };

@@ -3,12 +3,14 @@ package com.ecoservices.app.model;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "user")
+@CompoundIndex(name="identification" ,def = "{'idtype' :1 , 'idnumber': 1}" ,unique = true)
 public class User {
 
     @Id
@@ -17,7 +19,10 @@ public class User {
     private String email;
     private String password;
     private String fullname;
+    private String idtype;
+    private String idnumber;
     private boolean enabled;
+    private String boss; //TODO cahnge to db reference
     private String creationRole;
     @DBRef
     private Set<Role> roles;
@@ -77,4 +82,16 @@ public class User {
     public void setFullname(String fullname) {
         this.fullname = fullname;
     }
+
+    public String getIdtype() { return idtype; }
+
+    public void setIdtype(String idtype) { this.idtype = idtype; }
+
+    public String getIdnumber() { return idnumber; }
+
+    public void setIdnumber(String idnumber) { this.idnumber = idnumber; }
+
+    public String getBoss() { return boss; }
+
+    public void setBoss(String boss) { this.boss = boss; }
 }

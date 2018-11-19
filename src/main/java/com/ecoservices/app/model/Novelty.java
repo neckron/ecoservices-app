@@ -17,6 +17,7 @@ public class Novelty {
   private Integer daysAmount;
   private LocalDate startDate;
   private LocalDate endDate;
+  private LocalDate creationDate;
   private String comment;
   private String status;
 
@@ -86,4 +87,9 @@ public class Novelty {
   public void setStatus(String status) {
     this.status = status;
   }
+
+  public LocalDate getCreationDate() { return creationDate; }
+
+  public void setCreationDate(LocalDate creationDate) { this.creationDate = creationDate; }
+
 }
