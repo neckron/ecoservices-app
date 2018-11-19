@@ -22,7 +22,6 @@ public class CustomizeAuthenticationSuccessHandler implements AuthenticationSucc
             Authentication authentication) throws IOException, ServletException {
         //set our response to OK status
         response.setStatus(HttpServletResponse.SC_OK);
-        logger.debug(authentication.getAuthorities().toString());
         for (GrantedAuthority auth : authentication.getAuthorities()) {
             if ("ADMIN".equals(auth.getAuthority())) {
                 logger.debug("usuario ADMIN ha ingresado");
