@@ -22,7 +22,7 @@ public class DashboardController {
     public ModelAndView dashboard() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("currentUser", userService.getUserByAuthenticationContext());
-        logger.debug("rdirecting user "+userService.getUserByAuthenticationContext());
+        logger.debug("rdirecting user "+userService.getUserByAuthenticationContext().getFullname());
         modelAndView.setViewName("/adminPages/dashboard");
         return modelAndView;
     }
