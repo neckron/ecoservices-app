@@ -15,11 +15,7 @@
                     <span>Navegación</span>
                 </h4>
                 <nav class="nav flex-column">
-                    <a class="nav-nav active" href="#">Active</a>
-                    <a class="nav-nav" href="#">Link</a>
-                    <a class="nav-nav" href="#">Link</a>
-                    <a class="nav-nav disabled" href="#">Disabled</a>
-                    <a class="nav-nav" th:href="@{/noveltyList}">POR DEFINIRMi lista de novedades</a>
+                    <a class="nav-nav" th:href="@{/noveltyList}">Revisión de novedades</a>
                 </nav>
             </div>
             <div class="col-md-8 order-md-1">
@@ -67,10 +63,11 @@
                             </select>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="inputboss">Rol</label>
-                            <select id="inputboss" name="boss" class="form-control" placeholder="Jefe" th:required="required">
-                                <option value="jefe1">JEFE 1</option>
-                                <option value="jefe2">JEFE 2</option>
+                            <label for="inputboss">Jefe</label>
+                            <select class="custom-select" id="inputboss" name="bossEmail">
+                                <option th:each="boss : ${listBosses}" id="bosses"
+                                        th:value="${boss.email}"
+                                        th:text="${boss.fullname}" />
                             </select>
                         </div>
                     </div>

@@ -21,8 +21,8 @@ public class DashboardController {
     @RequestMapping(value = "/admin/board", method = RequestMethod.GET)
     public ModelAndView dashboard() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("currentUser", userService.getUserByAuthenticationContext());
-        logger.debug("rdirecting user "+userService.getUserByAuthenticationContext().getFullname());
+        modelAndView.addObject("currentUser", userService.getUserByAuthenticationContext().get());
+        logger.debug("rdirecting user "+userService.getUserByAuthenticationContext().get().getFullname());
         modelAndView.setViewName("adminPages/dashboard");
         return modelAndView;
     }
@@ -30,7 +30,7 @@ public class DashboardController {
     @RequestMapping(value = "/user/board", method = RequestMethod.GET)
     public ModelAndView userDashboard() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("currentUser", userService.getUserByAuthenticationContext());
+        modelAndView.addObject("currentUser", userService.getUserByAuthenticationContext().get());
         modelAndView.setViewName("userPages/dashboardUser");
         return modelAndView;
     }

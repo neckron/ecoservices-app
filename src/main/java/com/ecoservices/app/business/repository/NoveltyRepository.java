@@ -8,7 +8,8 @@ import com.ecoservices.app.model.Novelty;
 
 public interface NoveltyRepository extends MongoRepository<Novelty, String>{
 
-  List<Novelty> findByUser(String username);
+  List<Novelty> findByUser(String id);
+  List<Novelty> findByApprover(String id);
 
 }
 

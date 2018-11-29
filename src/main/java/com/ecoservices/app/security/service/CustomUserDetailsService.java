@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -32,13 +36,18 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public User findUserByEmail(String email) {
+    Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
+
+    public Optional<User> findUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
     public void saveUser(User user) {
+        logger.debug("boss: "+user.getBossEmail());
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
+        Optional<User> boss = userRepository.findByEmail(user.getBossEmail());
+        user.setBoss(boss.get());
         Role userRole = roleRepository.findByRole(user.getCreationRole());
         user.setRoles(new HashSet<>(Arrays.asList(userRole)));
         userRepository.save(user);
@@ -61,23 +70,35 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        User user = userRepository.findByEmail(email);
-        if (user != null) {
-            List<GrantedAuthority> authorities = getUserAuthority(user.getRoles());
-            return buildUserForAuthentication(user, authorities);
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isPresent()) {
+            List<GrantedAuthority> authorities = getUserAuthority(optionalUser.get().getRoles());
+            return buildUserForAuthentication(optionalUser.get(), authorities);
         } else {
             throw new UsernameNotFoundException("username not found");
         }
     }
 
-    public User getUserByAuthenticationContext(){
+    public Optional<User> getUserByAuthenticationContext(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByEmail(auth.getName());
-        if(user != null){
-            return user;
+        Optional<User> optionalUser = userRepository.findByEmail(auth.getName());
+        if(optionalUser.isPresent()){
+            return optionalUser;
         }else {
             throw new UsernameNotFoundException("username not found");
         }
+    }
+
+    public Optional<User> findUserByResetToken(String resetToken){
+       return userRepository.findByResetToken(resetToken);
+    }
+
+   public List<User> findUsersByRole(String role){
+        List<User> listUsersByRole = userRepository.findAll();
+        return listUsersByRole
+                .stream()
+                .filter(user -> "ADMIN".equals(user.getCreationRole()))
+                .collect(Collectors.toList());
     }
 
 }

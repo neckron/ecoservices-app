@@ -25,7 +25,8 @@ public class CustomizeAuthenticationSuccessHandler implements AuthenticationSucc
         for (GrantedAuthority auth : authentication.getAuthorities()) {
             if ("ADMIN".equals(auth.getAuthority())) {
                 logger.debug("usuario ADMIN ha ingresado");
-                response.sendRedirect("/admin/board");
+                //response.sendRedirect("/admin/board");
+                response.sendRedirect("/noveltyList");
             }
 
             if ("USER".equals((auth.getAuthority()))) {

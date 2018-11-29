@@ -22,8 +22,12 @@ public class User {
     private String idtype;
     private String idnumber;
     private boolean enabled;
-    private String boss; //TODO cahnge to db reference
+    @DBRef
+    private User boss;
     private String creationRole;
+    private String bossEmail;
+    private String resetToken;
+
     @DBRef
     private Set<Role> roles;
 
@@ -91,7 +95,16 @@ public class User {
 
     public void setIdnumber(String idnumber) { this.idnumber = idnumber; }
 
-    public String getBoss() { return boss; }
+    public User getBoss() { return boss; }
 
-    public void setBoss(String boss) { this.boss = boss; }
+    public void setBoss(User boss) { this.boss = boss; }
+
+    public String getResetToken() { return resetToken; }
+
+    public void setResetToken(String resetToken) { this.resetToken = resetToken; }
+
+    public String getBossEmail() { return bossEmail; }
+
+    public void setBossEmail(String bossEmail) { this.bossEmail = bossEmail; }
+
 }

@@ -23,6 +23,8 @@ public class NoveltyManagerService {
     return noveltyRepository.findByUser(user.getId());
   }
 
-
+  public List<Novelty> retrieveNoveltyListByApprover(User user){
+    return noveltyRepository.findByApprover(user.getId());
+  }
 
 }

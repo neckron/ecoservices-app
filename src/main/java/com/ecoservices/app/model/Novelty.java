@@ -24,6 +24,9 @@ public class Novelty {
   @DBRef
   User user;
 
+  @DBRef
+  User approver;
+
   public String getType() {
     return type;
   }
@@ -91,5 +94,9 @@ public class Novelty {
   public LocalDate getCreationDate() { return creationDate; }
 
   public void setCreationDate(LocalDate creationDate) { this.creationDate = creationDate; }
+
+  public User getApprover() { return approver; }
+
+  public void setApprover(User approver) { this.approver = approver; }
 
 }

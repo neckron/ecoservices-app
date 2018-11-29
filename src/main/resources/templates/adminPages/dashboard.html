@@ -11,7 +11,7 @@
     </br>
     <div class="container">
         <div class="row">
-            <div class="special-border-right col-md-4 order-md-2 mb-4">
+            <div class="special-border-right col-md-2 order-md-2 mb-4">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span>Navegación</span>
                 </h4>
@@ -22,8 +22,36 @@
                     </a>
                 </nav>
             </div>
-            <div class="col-md-8 order-md-1">
-                <p> Por definir</p>
+            <div class="col-md-10 order-md-1">
+                <h3> Lista de novedades por revisar </h3>
+
+                <table class="table table-striped table-hover">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Comentario</th>
+                        <th scope="col">Duración (Días)</th>
+                        <th scope="col">Fecha creación</th>
+                        <th scope="col">Fecha inicio</th>
+                        <th scope="col">Fecha fin</th>
+                        <th scope="col">Reportado por</th>
+                        <th scope="col">Estado</th>
+                    </tr>
+
+                    </thead>
+                    <th:block th:each = "novelty : ${listNovelties}">
+                        <tr>
+                            <td th:text="${novelty.type}" />
+                            <td th:text="${novelty.comment}" />
+                            <td th:text="${novelty.daysAmount}" />
+                            <td th:text="${novelty.creationDate}" />
+                            <td th:text="${novelty.startDate}" />
+                            <td th:text="${novelty.endDate}" />
+                            <td th:text="${novelty.user.fullname}" />
+                            <td th:text="${novelty.status}" />
+                        </tr>
+                    </th:block>
+                </table>
             </div>
         </div>
     </div>

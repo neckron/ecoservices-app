@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ecoservices.app.business.service.NoveltyManagerService;
 import com.ecoservices.app.model.Novelty;
+import com.ecoservices.app.model.User;
 import com.ecoservices.app.security.service.CustomUserDetailsService;
 
 @Controller
@@ -34,13 +35,14 @@ public class NoveltyController {
   @RequestMapping(value = "/createNewNovelty", method = RequestMethod.POST)
   public ModelAndView createNewNovelty(@Valid Novelty novelty, BindingResult bindingResult) {
     ModelAndView modelAndView = new ModelAndView();
-    novelty.setUser(userService.getUserByAuthenticationContext());
+    novelty.setUser(userService.getUserByAuthenticationContext().get());
+    novelty.setApprover(novelty.getUser().getBoss());
     novelty.setCreationDate(LocalDate.now());
     novelty.setStatus("EN REVISION");
     noveltyManagerService.saveNovelty(novelty);
     logger.debug(NOVEDAD_REGISTRADA);
     modelAndView.addObject("successMessage", NOVEDAD_REGISTRADA);
-    modelAndView.addObject("currentUser", userService.getUserByAuthenticationContext());
+    modelAndView.addObject("currentUser", userService.getUserByAuthenticationContext().get());
     modelAndView.setViewName("userPages/dashboardUser");
     return modelAndView;
   }
@@ -49,11 +51,25 @@ public class NoveltyController {
   @GetMapping("/noveltyList")
   public ModelAndView getNoveltyList(){
     ModelAndView modelAndView = new ModelAndView();
-    List<Novelty> listNovelties = noveltyManagerService.retrieveNoveltyListByUser(userService.getUserByAuthenticationContext());
-    modelAndView.addObject("currentUser", userService.getUserByAuthenticationContext());
-    modelAndView.addObject("listNovelties",listNovelties);
-    modelAndView.setViewName("userPages/noveltyList");
+    User currentUser = userService.getUserByAuthenticationContext().get();
+    modelAndView.addObject("currentUser", currentUser);
+    if(currentUser.getCreationRole().equals("USER")){
+      logger.debug("user for novelty list "+currentUser.getFullname());
+      modelAndView.setViewName("userPages/noveltyList");
+      List<Novelty> listNovelties = noveltyManagerService.retrieveNoveltyListByUser(currentUser);
+      modelAndView.addObject("listNovelties",listNovelties);
+    }else if (currentUser.getCreationRole().equals("ADMIN")){
+      logger.debug("admin for novelty list "+currentUser.getFullname());
+      List<Novelty> listNovelties = noveltyManagerService.retrieveNoveltyListByApprover(currentUser);
+      modelAndView.addObject("listNovelties",listNovelties);
+      modelAndView.setViewName("adminPages/dashboard");
+    }else {
+      modelAndView.setViewName("error");
+    }
+
     return modelAndView;
   }
+
+
 
 }
